@@ -192,6 +192,7 @@ public:
 		}
 
 		RFLOAT u2 = X * X + Y * Y;
+        RFLOAT phi = atan2(Y, X);
 		RFLOAT u4 = u2 * u2;
 
 		// if (u2>=ua2) return 0;
@@ -208,7 +209,8 @@ public:
 		}
 		else
 		{
-			retval = -sin(gamma);
+			//retval = -sin(gamma);
+            retval = -sin(gamma+phi*4);
 		}
 
 		if (do_damping)
