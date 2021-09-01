@@ -577,7 +577,8 @@ std::vector<std::vector<Image<Complex>>> MicrographHandler::loadMovie(
 				const int PBUF_SIZE = 100;
 		                FOR_ALL_DIRECT_ELEMENTS_IN_ARRAY2D(defectMask)
         		        {
-		                        if (!DIRECT_A2D_ELEM(defectMask, i, j)) continue;
+		                        if (!DIRECT_A2D_ELEM(defectMask, i, j) &&
+					    (!mgHasGain || DIRECT_A2D_ELEM(lastGainRef(), i, j) != 0)) continue;
 
 		                        #pragma omp parallel for num_threads(nr_omp_threads)
 					for (int iframe = 0; iframe < n_frames; iframe++)
@@ -593,6 +594,7 @@ std::vector<std::vector<Image<Complex>>> MicrographHandler::loadMovie(
 								int x = j + dx;
 								if (x < 0 || x >= XSIZE(defectMask)) continue;
 								if (DIRECT_A2D_ELEM(defectMask, y, x)) continue;
+								if (mgHasGain && DIRECT_A2D_ELEM(lastGainRef(), y, x) == 0) continue;
 
 								pbuf[n_ok] = DIRECT_A2D_ELEM(Iframes[iframe], y, x);
 								n_ok++;

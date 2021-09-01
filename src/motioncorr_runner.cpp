@@ -484,7 +484,7 @@ void MotioncorrRunner::run()
         MCtimer.printTimes(false);
 #endif
 #ifdef TIMING_FFTW
-	MCtimer_fftw.printTimes(false);
+	timer_fftw.printTimes(false);
 #endif
 }
 
@@ -1135,12 +1135,12 @@ bool MotioncorrRunner::executeOwnMotionCorrection(Micrograph &mic) {
 		}
 
 		// TODO: This should be done earlier and merged with badmap
-		if (isEER && fn_gain_reference != "")
+		if (fn_gain_reference != "")
 		{
 			int n_bad_eer = 0;
 			FOR_ALL_DIRECT_ELEMENTS_IN_MULTIDIMARRAY(Igain())
 			{
-				if (DIRECT_MULTIDIM_ELEM(Igain(), n) == 0) // || DIRECT_MULTIDIM_ELEM(Igain(), n) > 2.0)
+				if (DIRECT_MULTIDIM_ELEM(Igain(), n) == 0)
 				{
 //					n_bad_eer++;
 					DIRECT_MULTIDIM_ELEM(bBad, n) = true;
